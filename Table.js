@@ -161,7 +161,7 @@ class DataTable extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${this.processedData.map(
+          ${this.processedData.slice(0, 50).map(
             (row) => html`
               <tr>
                 ${row.map((cell, index) =>
