@@ -51,14 +51,11 @@ class DataTable extends LitElement {
   `;
 
   // Handle column selection for visibility
-  handleColumnVisibilityChange(e) {
-    const { name, checked } = e.target;
-    if (checked) {
-      // Ensure reactivity by assigning a new array
-      this.visibleColumns = [...this.visibleColumns, name];
-    } else {
-      this.visibleColumns = this.visibleColumns.filter((col) => col !== name);
-    }
+  handleSelectChange(event) {
+    const selectedOptions = Array.from(event.target.selectedOptions).map(
+      (option) => option.value
+    );
+    this.visibleColumns = selectedOptions;
   }
 
   // Handle filter input change
@@ -107,19 +104,18 @@ class DataTable extends LitElement {
     return html`
       <!-- Column Visibility Checkboxes -->
       <div>
-        ${this.header.map(
-          (column) => html`
-            <label>
-              <input
-                type="checkbox"
-                name="${column}"
-                .checked="${this.visibleColumns.includes(column)}"
-                @change="${this.handleColumnVisibilityChange}"
-              />
-              ${column}
-            </label>
-          `
-        )}
+        <select multiple="4" @change="${this.handleSelectChange}">
+          ${this.header.map(
+            (column) => html`
+              <option
+                value="${column}"
+                ?selected="${this.visibleColumns.includes(column)}"
+              >
+                ${column}
+              </option>
+            `
+          )}
+        </select>
       </div>
 
       <!-- Filters -->
