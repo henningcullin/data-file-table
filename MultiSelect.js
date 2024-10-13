@@ -1,4 +1,3 @@
-// multi-select.js
 import {
   LitElement,
   html,
@@ -6,6 +5,13 @@ import {
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
 
 class MultiSelect extends LitElement {
+  static properties = {
+    options: { type: Array },
+    selectedItems: { type: Array },
+    inputValue: { type: String },
+    onChange: { type: Function }, // New callback property
+  };
+
   static styles = css`
     :host {
       display: block;
@@ -80,17 +86,12 @@ class MultiSelect extends LitElement {
     }
   `;
 
-  static properties = {
-    options: { type: Array },
-    selectedItems: { type: Array },
-    inputValue: { type: String },
-  };
-
   constructor() {
     super();
-    this.options = ["Apple", "Orange", "Banana", "Grape", "Mango", "Pineapple"];
+    this.options = [];
     this.selectedItems = [];
     this.inputValue = "";
+    this.onChange = () => {}; // Default no-op function
   }
 
   handleInput(e) {
@@ -101,6 +102,7 @@ class MultiSelect extends LitElement {
     if (!this.selectedItems.includes(option)) {
       this.selectedItems = [...this.selectedItems, option];
       this.inputValue = ""; // Clear input after selection
+      this.onChange(this.selectedItems); // Call the onChange callback
     }
   }
 
@@ -108,6 +110,7 @@ class MultiSelect extends LitElement {
     this.selectedItems = this.selectedItems.filter(
       (selected) => selected !== item
     );
+    this.onChange(this.selectedItems); // Call the onChange callback
   }
 
   get filteredOptions() {
