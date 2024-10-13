@@ -3,6 +3,7 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import MultiSelect from "./MultiSelect.js"; // Import the MultiSelect component
 
 class DataTable extends LitElement {
   static properties = {
@@ -21,7 +22,7 @@ class DataTable extends LitElement {
     this.filters = {};
     this.sortColumn = null;
     this.sortDirection = "asc";
-    this.visibleColumns = [...this.header];
+    this.visibleColumns = [...this.header]; // Initially show all columns
   }
 
   // Styles for the table
@@ -50,12 +51,9 @@ class DataTable extends LitElement {
     }
   `;
 
-  // Handle column selection for visibility
-  handleSelectChange(event) {
-    const selectedOptions = Array.from(event.target.selectedOptions).map(
-      (option) => option.value
-    );
-    this.visibleColumns = selectedOptions;
+  // Update visible columns when the selection changes
+  updateVisibleColumns(selectedItems) {
+    this.visibleColumns = selectedItems;
   }
 
   // Handle filter input change
@@ -102,23 +100,12 @@ class DataTable extends LitElement {
 
   render() {
     return html`
-      <!-- Column Visibility Checkboxes -->
-      <div>
-        <select multiple="4" @change="${this.handleSelectChange}">
-          ${this.header.map(
-            (column) => html`
-              <option
-                value="${column}"
-                ?selected="${this.visibleColumns.includes(column)}"
-              >
-                ${column}
-              </option>
-            `
-          )}
-        </select>
-      </div>
+      <multi-select
+        .options="${this.header}"
+        .selectedItems="${this.visibleColumns}"
+        .onChange="${(items) => this.updateVisibleColumns(items)}"
+      ></multi-select>
 
-      <!-- Filters -->
       <div>
         ${this.header.map((column) =>
           this.visibleColumns.includes(column)
