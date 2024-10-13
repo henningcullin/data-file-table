@@ -73,16 +73,16 @@ class DataTable extends LitElement {
 
   // Apply sorting and filtering to the data
   get processedData() {
-    let filteredData = this.data.filter((row) => {
-      return Object.keys(this.filters).every((column) => {
+    let filteredData = this.data.filter((row) =>
+      Object.keys(this.filters).every((column) => {
         if (!this.filters[column]) return true;
         const columnIndex = this.header.indexOf(column);
         return row[columnIndex]
           .toString()
           .toLowerCase()
           .includes(this.filters[column].toLowerCase());
-      });
-    });
+      })
+    );
 
     if (this.sortColumn) {
       const columnIndex = this.header.indexOf(this.sortColumn);
@@ -100,11 +100,14 @@ class DataTable extends LitElement {
 
   render() {
     return html`
+      <h2>Columns</h2>
       <multi-select
         .options="${this.header}"
         .selectedItems="${this.visibleColumns}"
         .onChange="${(items) => this.updateVisibleColumns(items)}"
       ></multi-select>
+
+      <br /><br /><br />
 
       <div>
         ${this.header.map((column) =>
