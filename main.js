@@ -1,4 +1,5 @@
 import DataTable from "./Table.js";
+import MultiSelect from './MultiSelect.js';
 
 // Example usage
 const header = ["id", "first_name", "last_name", "age"];
