@@ -3,7 +3,8 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
-import MultiSelect from "./MultiSelect.js"; // Import the MultiSelect component
+
+import MultiSelect from "./MultiSelect.js";
 
 class DataTable extends LitElement {
   static properties = {
@@ -61,15 +62,17 @@ class DataTable extends LitElement {
     this.filters = { ...this.filters, [column]: e.target.value };
   }
 
-  // Sort the data by column
-  handleSort(column) {
-    if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-    } else {
-      this.sortColumn = column;
-      this.sortDirection = "asc";
-    }
-  }
+  handleColumn(column) {}
+
+  // // Sort the data by column
+  // handleSort(column) {
+  //   if (this.sortColumn === column) {
+  //     this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+  //   } else {
+  //     this.sortColumn = column;
+  //     this.sortDirection = "asc";
+  //   }
+  // }
 
   // Apply sorting and filtering to the data
   get processedData() {
@@ -137,7 +140,7 @@ class DataTable extends LitElement {
                       class="${this.sortColumn === column
                         ? `sort-${this.sortDirection}`
                         : ""}"
-                      @click="${() => this.handleSort(column)}"
+                      @click="${() => this.handleColumn(column)}"
                     >
                       ${column}
                     </th>
