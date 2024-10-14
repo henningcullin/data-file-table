@@ -29,6 +29,12 @@ class MultiSelect extends LitElement {
       border-radius: 5px;
       padding: 8px;
       cursor: text;
+      width: 94.5%;
+    }
+
+    .input-container.open {
+      border-bottom: 0px;
+      border-radius: 5px 5px 0 0;
     }
 
     .selected-item {
@@ -80,6 +86,7 @@ class MultiSelect extends LitElement {
 
     .datalist.open {
       display: block;
+      border-radius: 0 0 5px 5px;
     }
 
     .datalist-item {
@@ -161,7 +168,7 @@ class MultiSelect extends LitElement {
   render() {
     return html`
       <div
-        class="input-container"
+        class="input-container ${this.open ? "open" : ""}"
         @click=${() => this.shadowRoot.querySelector("input").focus()}
       >
         ${this.selectedItems.map(
