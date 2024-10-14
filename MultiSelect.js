@@ -9,7 +9,8 @@ class MultiSelect extends LitElement {
     options: { type: Array },
     selectedItems: { type: Array },
     inputValue: { type: String },
-    onChange: { type: Function }, // New callback property
+    open: { type: Boolean },
+    onChange: { type: Function },
   };
 
   static styles = css`
@@ -74,6 +75,11 @@ class MultiSelect extends LitElement {
       width: 100%;
       background: white;
       z-index: 10;
+      display: none;
+    }
+
+    .datalist.open {
+      display: block;
     }
 
     .datalist-item {
@@ -91,11 +97,36 @@ class MultiSelect extends LitElement {
     this.options = [];
     this.selectedItems = [];
     this.inputValue = "";
-    this.onChange = () => {}; // Default no-op function
+    this.open = false; // Control the visibility of the datalist
+    this.onChange = () => {};
+
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
-  handleInput(e) {
-    this.inputValue = e.target.value.toLowerCase();
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener("click", this.handleOutsideClick);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this.handleOutsideClick);
+  }
+
+  handleOutsideClick(event) {
+    // Use composedPath to properly detect clicks inside shadow DOM
+    const path = event.composedPath();
+    const inputContainer = this.shadowRoot.querySelector(".input-container");
+    const datalist = this.shadowRoot.querySelector(".datalist");
+
+    if (!path.includes(inputContainer) && !path.includes(datalist)) {
+      this.open = false; // Close the datalist when clicking outside
+    }
+  }
+
+  handleInput(event) {
+    this.inputValue = event.target.value.toLowerCase();
+    this.open = true; // Open datalist when typing
   }
 
   handleSelect(option) {
@@ -103,6 +134,8 @@ class MultiSelect extends LitElement {
       this.selectedItems = [...this.selectedItems, option];
       this.inputValue = ""; // Clear input after selection
       this.onChange(this.selectedItems); // Call the onChange callback
+      if (this.selectedItems?.length === this.options?.length)
+        this.open = false;
     }
   }
 
@@ -111,6 +144,10 @@ class MultiSelect extends LitElement {
       (selected) => selected !== item
     );
     this.onChange(this.selectedItems); // Call the onChange callback
+  }
+
+  handleFocus() {
+    this.open = true; // Open the datalist on input focus
   }
 
   get filteredOptions() {
@@ -139,10 +176,11 @@ class MultiSelect extends LitElement {
           type="text"
           .value=${this.inputValue}
           @input=${this.handleInput}
+          @focus=${this.handleFocus}
           placeholder="Select..."
         />
       </div>
-      <div class="datalist">
+      <div class="datalist ${this.open ? "open" : ""}">
         ${this.filteredOptions.map(
           (option) => html`
             <div
