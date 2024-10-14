@@ -157,6 +157,10 @@ class MultiSelect extends LitElement {
     this.open = true; // Open the datalist on input focus
   }
 
+  isOpen() {
+    return this.open && this?.selectedItems?.length !== this?.options?.length;
+  }
+
   get filteredOptions() {
     return this.options.filter(
       (option) =>
@@ -168,7 +172,7 @@ class MultiSelect extends LitElement {
   render() {
     return html`
       <div
-        class="input-container ${this.open ? "open" : ""}"
+        class="input-container ${this.isOpen() ? "open" : ""}"
         @click=${() => this.shadowRoot.querySelector("input").focus()}
       >
         ${this.selectedItems.map(
@@ -187,7 +191,7 @@ class MultiSelect extends LitElement {
           placeholder="${this?.selectedItems?.length ? "" : "Select..."}"
         />
       </div>
-      <div class="datalist ${this.open ? "open" : ""}">
+      <div class="datalist ${this.isOpen() ? "open" : ""}">
         ${this.filteredOptions.map(
           (option) => html`
             <div
