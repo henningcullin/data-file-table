@@ -184,7 +184,7 @@ class MultiSelect extends LitElement {
           .value=${this.inputValue}
           @input=${this.handleInput}
           @focus=${this.handleFocus}
-          placeholder="Select..."
+          placeholder="${this?.selectedItems?.length ? "" : "Select..."}"
         />
       </div>
       <div class="datalist ${this.open ? "open" : ""}">
