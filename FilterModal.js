@@ -116,7 +116,7 @@ class FilterModal extends LitElement {
                 )}
               </select>
 
-              <input type="${getInputType(condition.type)}" />
+              <input type="${getInputType(condition.filterType)}" />
               <button
                 type="button"
                 @click="${() => this.handleRemoveCondition(condition.id)}"
