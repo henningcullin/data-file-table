@@ -58,10 +58,6 @@ function condition({
   };
 }
 
-/**
- * @type {{contains: filterPredicate}}
- * An object where the key is a string, and the value is a `filterPredicate`.
- */
 export const filters = {
   contains: condition({
     label: "Contains",
@@ -110,3 +106,28 @@ export const filters = {
     number: (table, filter) => table > filter,
   }),
 };
+
+/**
+ * Build the available filter options for each column type
+ *
+ * @returns {{string: {label: string, value: string}[], number: {label: string, value: string}[], date: {label: string, value: string}[], boolean: {label: string, value: string}[]}}
+ */
+export function getFilterMap() {
+  return Object.entries(filters).reduce(function (
+    acc,
+    [identifier, conditionObject]
+  ) {
+    Object.entries(conditionObject).forEach(function ([key, value]) {
+      if (typeof value === "function") {
+        if (typeof acc[key] !== "object" || !Array.isArray(acc[key])) {
+          acc[key] = [];
+        }
+
+        acc[key].push({ label: conditionObject.label, value: identifier });
+      }
+    });
+
+    return acc;
+  },
+  {});
+}
