@@ -11,7 +11,7 @@ class DataTable extends LitElement {
   static properties = {
     header: { type: Array },
     data: { type: Array },
-    filters: { type: Object },
+    filter: { type: Object },
     sortColumn: { type: String },
     sortDirection: { type: String },
     visibleColumns: { type: Array },
@@ -21,7 +21,7 @@ class DataTable extends LitElement {
     super();
     this.header = [];
     this.data = [];
-    this.filters = {};
+    this.filter = {};
     this.sortColumn = null;
     this.sortDirection = "asc";
     this.visibleColumns = [...this.header]; // Initially show all columns
@@ -61,7 +61,7 @@ class DataTable extends LitElement {
 
   // Handle filter input change
   handleFilterChange(e, column) {
-    this.filters = { ...this.filters, [column]: e.target.value };
+    this.filter = { ...this.filter, [column]: e.target.value };
   }
 
   handleColumn(column) {
@@ -81,13 +81,13 @@ class DataTable extends LitElement {
   // Apply sorting and filtering to the data
   get processedData() {
     let filteredData = this.data.filter((row) =>
-      Object.keys(this.filters).every((column) => {
-        if (!this.filters[column]) return true;
+      Object.keys(this.filter).every((column) => {
+        if (!this.filter[column]) return true;
         const columnIndex = this.header.indexOf(column);
         return row[columnIndex]
           .toString()
           .toLowerCase()
-          .includes(this.filters[column].toLowerCase());
+          .includes(this.filter[column].toLowerCase());
       })
     );
 
