@@ -108,6 +108,14 @@ const filters = {
     label: "Does Not End With",
     string: (table, filter) => !table.endsWith(filter),
   }),
+  is_less_than: condition({
+    label: "Is Less Than",
+    number: (table, filter) => table < filter,
+  }),
+  is_greater_than: condition({
+    label: "Is Greater Than",
+    number: (table, filter) => table > filter,
+  }),
 };
 
 console.log(filters);
