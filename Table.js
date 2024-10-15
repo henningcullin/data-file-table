@@ -60,23 +60,17 @@ class DataTable extends LitElement {
   }
 
   // Handle filter input change
-  handleFilterChange(e, column) {
-    this.filter = { ...this.filter, [column]: e.target.value };
+  setColumnFilter(columnFilter) {
+    this.filter = { ...this.filter, columnFilter };
   }
 
-  handleColumn(column) {
-    this.filterColumn(column);
+  handleColumnFilter(column) {
+    const filter = this.filter[column] ?? [];
+    console.log(filter);
+    this.filterColumn(filter, (columnFilter) =>
+      this.setColumnFilter(columnFilter)
+    );
   }
-
-  // // Sort the data by column
-  // handleSort(column) {
-  //   if (this.sortColumn === column) {
-  //     this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-  //   } else {
-  //     this.sortColumn = column;
-  //     this.sortDirection = "asc";
-  //   }
-  // }
 
   // Apply sorting and filtering to the data
   get processedData() {
@@ -114,27 +108,8 @@ class DataTable extends LitElement {
         .onChange="${(items) => this.updateVisibleColumns(items)}"
       ></multi-select>
 
-      <br /><br /><br />
-
-      <div>
-        ${this.header.map((column) =>
-          this.visibleColumns.includes(column)
-            ? html`
-                <label>
-                  ${column}:
-                  <input
-                    type="text"
-                    placeholder="Filter by ${column}"
-                    @input="${(e) => this.handleFilterChange(e, column)}"
-                  />
-                </label>
-              `
-            : null
-        )}
-      </div>
-
       <!-- Table -->
-      <table>
+      <table style="margin-top: 7em;">
         <thead>
           <tr>
             ${this.header.map((column) =>
@@ -144,7 +119,7 @@ class DataTable extends LitElement {
                       class="${this.sortColumn === column
                         ? `sort-${this.sortDirection}`
                         : ""}"
-                      @click="${() => this.handleColumn(column)}"
+                      @click="${() => this.handleColumnFilter(column)}"
                     >
                       ${column}
                     </th>
