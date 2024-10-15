@@ -3,31 +3,130 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import { getFilterMap } from "./filter.js";
+
+function getInputType(inputType) {
+  switch (inputType) {
+    case "string":
+      return "text";
+    case "number":
+      return "number";
+    case "date":
+      return "date";
+    case "boolean":
+      return "checkbox";
+    default:
+      return "text";
+  }
+}
+
+const filterTypes = [
+  { label: "String", value: "string" },
+  { label: "Number", value: "number" },
+  { label: "Date", value: "date" },
+  { label: "Boolean", value: "boolean" },
+];
 
 class FilterModal extends LitElement {
   static properties = {
-    column: { type: String },
-    filter: { type: Object },
+    filter: { type: Array },
   };
+
+  static styles = css`
+    dialog {
+      border: 1px solid red;
+    }
+  `;
 
   constructor() {
     super();
+    this.filterMap = getFilterMap();
+    this.setFilter = () => {};
+    this.filter = [];
   }
 
-  open() {
+  show(filter, setFilter) {
+    this.filter = filter;
+    this.setFilter = setFilter;
     this?.shadowRoot?.querySelector("dialog")?.showModal();
+  }
+
+  addCondition() {
+    this.filter = [
+      ...this.filter,
+      {
+        id: crypto.randomUUID(),
+        filterType: "string",
+        filterMethod: "contains",
+        filterValue: "",
+      },
+    ];
+  }
+
+  /**
+   *
+   * @param {SubmitEvent} event
+   */
+  onSubmit(event) {
+    event.preventDefault();
+  }
+
+  handleFilterTypeChanged(event, id) {
+    this.filter = this.filter.reduce((acc, curr) => {
+      if (curr.id === id) {
+        curr.filterType = event.target.value;
+      }
+      acc.push(curr);
+      return acc;
+    }, []);
+  }
+
+  handleRemoveCondition(id) {
+    this.filter = this.filter.reduce((acc, curr) => {
+      if (curr.id !== id) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
   }
 
   render() {
     return html`
       <dialog>
         <h2>${this.column}</h2>
-        <div>
-          <div>
-            <label></label>
-            <select></select>
-          </div>
-        </div>
+        <form @submit="${this.onSubmit}">
+          ${this.filter.map(
+            (condition) => html`<div>
+              <label>Type</label>
+              <select
+                @change="${(event) =>
+                  this.handleFilterTypeChanged(event, condition.id)}"
+              >
+                ${filterTypes.map(
+                  ({ label, value }) =>
+                    html`<option value="${value}">${label}</option>`
+                )}
+              </select>
+
+              <label>Method</label>
+              <select>
+                ${this.filterMap[condition.filterType]?.map(
+                  ({ label, value }) =>
+                    html`<option value="${value}">${label}</option>`
+                )}
+              </select>
+
+              <input type="${getInputType(condition.type)}" />
+              <button
+                type="button"
+                @click="${() => this.handleRemoveCondition(condition.id)}"
+              >
+                Remove Condition
+              </button>
+            </div>`
+          )}
+        </form>
+        <button @click="${this.addCondition}">Add Condition</button>
       </dialog>
     `;
   }
@@ -45,8 +144,7 @@ export function useFilterModal() {
     document.body.appendChild(modal);
   }
 
-  return function (column) {
-    modal.column = column;
-    modal.open();
+  return function (filter, setFilter) {
+    modal.show(filter, setFilter);
   };
 }
