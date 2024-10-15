@@ -6,19 +6,28 @@ import {
 
 class FilterModal extends LitElement {
   static properties = {
-    open: { type: Boolean },
+    column: { type: String },
+    filter: { type: Object },
   };
 
   constructor() {
     super();
-    this.open = false;
+  }
+
+  open() {
+    this?.shadowRoot?.querySelector("dialog")?.showModal();
   }
 
   render() {
     return html`
-      <dialog .open=${this.open}>
-        <h2>column</h2>
-        <p>This is an important thing lmao.... HHAHAHAH</p>
+      <dialog>
+        <h2>${this.column}</h2>
+        <div>
+          <div>
+            <label></label>
+            <select></select>
+          </div>
+        </div>
       </dialog>
     `;
   }
@@ -28,12 +37,16 @@ class FilterModal extends LitElement {
 customElements.define("filter-modal", FilterModal);
 
 export function useFilterModal() {
-  const modal = document.createElement("filter-modal");
-  document.body.appendChild(modal);
+  const modalExist = document.querySelector("filter-modal");
 
-  function showModal() {
-    modal.showModal();
+  const modal = modalExist ?? document.createElement("filter-modal");
+
+  if (!modalExist) {
+    document.body.appendChild(modal);
   }
 
-  return { showModal };
+  return function (column) {
+    modal.column = column;
+    modal.open();
+  };
 }

@@ -5,6 +5,7 @@ import {
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
 
 import MultiSelect from "./MultiSelect.js";
+import { useFilterModal } from "./FilterModal.js";
 
 class DataTable extends LitElement {
   static properties = {
@@ -24,6 +25,7 @@ class DataTable extends LitElement {
     this.sortColumn = null;
     this.sortDirection = "asc";
     this.visibleColumns = [...this.header]; // Initially show all columns
+    this.filterColumn = useFilterModal();
   }
 
   // Styles for the table
@@ -62,7 +64,9 @@ class DataTable extends LitElement {
     this.filters = { ...this.filters, [column]: e.target.value };
   }
 
-  handleColumn(column) {}
+  handleColumn(column) {
+    this.filterColumn(column);
+  }
 
   // // Sort the data by column
   // handleSort(column) {
