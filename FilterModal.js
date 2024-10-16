@@ -44,6 +44,14 @@ class FilterModal extends LitElement {
     dialog {
       border: 1px solid red;
     }
+
+    form {
+      margin-bottom: 1em;
+    }
+
+    form > div {
+      margin-bottom: 1em;
+    }
   `;
 
   constructor() {
@@ -70,6 +78,7 @@ class FilterModal extends LitElement {
         filterType: "string",
         filterMethod: "contains",
         filterValue: "",
+        specialProperty: false,
       },
     ];
   }
@@ -80,6 +89,7 @@ class FilterModal extends LitElement {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setFilter(this.filter);
   }
 
   handleFilterTypeChanged(event, id) {
@@ -102,6 +112,20 @@ class FilterModal extends LitElement {
     this.filter = this.filter.reduce((acc, curr) => {
       if (curr.id === id) {
         curr.filterMethod = event.target.value;
+      }
+      acc.push(curr);
+      return acc;
+    }, []);
+  }
+
+  handleFilterValueChanged(event, id) {
+    this.filter = this.filter.reduce((acc, curr) => {
+      if (curr.id === id) {
+        if (curr.filterType === "boolean") {
+          curr.filterValue = event.originalTarget.checked;
+        } else {
+          curr.filterValue = event.originalTarget.value;
+        }
       }
       acc.push(curr);
       return acc;
@@ -159,7 +183,12 @@ class FilterModal extends LitElement {
                   )}
                 </select>
 
-                <input type="${getInputType(condition.filterType)}" />
+                <input
+                  type="${getInputType(condition.filterType)}"
+                  @input="${(event) =>
+                    this.handleFilterValueChanged(event, condition.id)}"
+                  placeholder="Enter Filter Value"
+                />
                 <button
                   type="button"
                   @click="${() => this.handleRemoveCondition(condition.id)}"
@@ -169,8 +198,9 @@ class FilterModal extends LitElement {
               </div>
             `
           )}
+          <button type="submit">Filter</button>
         </form>
-        <button @click="${this.addCondition}">Add Condition</button>
+        <button @click="${this.addCondition}">+ New Condition</button>
       </dialog>
     `;
   }
