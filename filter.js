@@ -71,14 +71,14 @@ export const filters = {
     label: "Equals",
     string: (table, filter) => table === filter,
     number: (table, filter) => table === filter,
-    date: (table, filter) => table === filter,
+    date: (table, filter) => table.toDateString() === filter.toDateString(),
     boolean: (table, filter) => table === filter,
   }),
   not_equals: condition({
     label: "Does Not Equals",
     string: (table, filter) => table !== filter,
     number: (table, filter) => table !== filter,
-    date: (table, filter) => table !== filter,
+    date: (table, filter) => table.toDateString() !== filter.toDateString(),
     boolean: (table, filter) => table !== filter,
   }),
   begins_with: condition({
@@ -100,10 +100,14 @@ export const filters = {
   is_less_than: condition({
     label: "Is Less Than",
     number: (table, filter) => table < filter,
+    date: (table, filter) =>
+      table.toISOString().split("T")[0] < filter.toISOString().split("T")[0],
   }),
   is_greater_than: condition({
     label: "Is Greater Than",
     number: (table, filter) => table > filter,
+    date: (table, filter) =>
+      table.toISOString().split("T")[0] > filter.toISOString().split("T")[0],
   }),
 };
 
