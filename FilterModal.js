@@ -67,6 +67,9 @@ class FilterModal extends LitElement {
   show(filter, setFilter) {
     this.filter = filter;
     this.setFilter = setFilter;
+    if (!this.filter?.length) {
+      this.addCondition();
+    }
     this?.shadowRoot?.querySelector("dialog")?.showModal();
   }
 
@@ -90,6 +93,7 @@ class FilterModal extends LitElement {
   onSubmit(event) {
     event.preventDefault();
     this.setFilter(this.filter);
+    this.shadowRoot.querySelector("dialog")?.close();
   }
 
   handleFilterTypeChanged(event, id) {
