@@ -123,34 +123,51 @@ class FilterModal extends LitElement {
         <h2>${this.column}</h2>
         <form @submit="${this.onSubmit}">
           ${this.filter.map(
-            (condition) => html`<div>
-              <label>Type</label>
-              <select
-                @change="${(event) =>
-                  this.handleFilterTypeChanged(event, condition.id)}"
-              >
-                ${filterTypes.map(
-                  ({ label, value }) =>
-                    html`<option value="${value}">${label}</option>`
-                )}
-              </select>
+            (condition) => html`
+              <div>
+                <label>Type</label>
+                <select
+                  @change="${(event) =>
+                    this.handleFilterTypeChanged(event, condition.id)}"
+                >
+                  ${filterTypes.map(
+                    ({ label, value }) => html`
+                      <option
+                        value="${value}"
+                        ?selected="${value === condition.filterType}"
+                      >
+                        ${label}
+                      </option>
+                    `
+                  )}
+                </select>
 
-              <label>Method</label>
-              <select>
-                ${this.filterMap[condition.filterType]?.map(
-                  ({ label, value }) =>
-                    html`<option value="${value}">${label}</option>`
-                )}
-              </select>
+                <label>Method</label>
+                <select
+                  @change="${(event) =>
+                    this.handleFilterMethodChanged(event, condition.id)}"
+                >
+                  ${this.filterMap[condition.filterType]?.map(
+                    ({ label, value }) => html`
+                      <option
+                        value="${value}"
+                        ?selected="${value === condition.filterMethod}"
+                      >
+                        ${label}
+                      </option>
+                    `
+                  )}
+                </select>
 
-              <input type="${getInputType(condition.filterType)}" />
-              <button
-                type="button"
-                @click="${() => this.handleRemoveCondition(condition.id)}"
-              >
-                Remove Condition
-              </button>
-            </div>`
+                <input type="${getInputType(condition.filterType)}" />
+                <button
+                  type="button"
+                  @click="${() => this.handleRemoveCondition(condition.id)}"
+                >
+                  Remove Condition
+                </button>
+              </div>
+            `
           )}
         </form>
         <button @click="${this.addCondition}">Add Condition</button>
