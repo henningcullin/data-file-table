@@ -20,6 +20,14 @@ function getInputType(inputType) {
   }
 }
 
+/**
+ * @typedef {`${string}-${string}-${string}-${string}-${string}`} Uuid
+ * @typedef {'string' | 'number' | 'date' | 'boolean'} FilterType
+ */
+
+/**
+ * @type {{label: string, value: FilterType}[]}
+ */
 const filterTypes = [
   { label: "String", value: "string" },
   { label: "Number", value: "number" },
@@ -42,6 +50,9 @@ class FilterModal extends LitElement {
     super();
     this.filterMap = getFilterMap();
     this.setFilter = () => {};
+    /**
+     * @type {{id: Uuid, filterType: FilterType, filterMethod: string, filterValue: string}[]}
+     */
     this.filter = [];
   }
 
