@@ -34,7 +34,7 @@ function condition({
     number: numberCallback
       ? (tableData, filterData, isFloat) => {
           tableData = isFloat ? parseFloat(tableData) : parseInt(tableData);
-          filterData = isFloat ? parseFloat(filterData) : parseInt(tableData);
+          filterData = isFloat ? parseFloat(filterData) : parseInt(filterData);
 
           return numberCallback(tableData, filterData);
         }
