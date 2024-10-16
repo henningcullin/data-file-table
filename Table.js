@@ -6,6 +6,7 @@ import {
 
 import MultiSelect from "./MultiSelect.js";
 import { useFilterModal } from "./FilterModal.js";
+import { filters } from "./filter.js";
 
 class DataTable extends LitElement {
   static properties = {
@@ -60,29 +61,47 @@ class DataTable extends LitElement {
   }
 
   // Handle filter input change
-  setColumnFilter(columnFilter) {
-    this.filter = { ...this.filter, columnFilter };
+  setColumnFilter(column, columnFilter) {
+    this.filter[column] = columnFilter;
+    this.filter = structuredClone(this.filter);
+
+    console.log(this.filter);
   }
 
   handleColumnFilter(column) {
     const filter = this.filter[column] ?? [];
     this.filterColumn(filter, (columnFilter) =>
-      this.setColumnFilter(columnFilter)
+      this.setColumnFilter(column, columnFilter)
     );
   }
 
   // Apply sorting and filtering to the data
   get processedData() {
-    let filteredData = this.data.filter((row) =>
-      Object.keys(this.filter).every((column) => {
-        if (!this.filter[column]) return true;
-        const columnIndex = this.header.indexOf(column);
-        return row[columnIndex]
-          .toString()
-          .toLowerCase()
-          .includes(this.filter[column].toLowerCase());
-      })
-    );
+    let filteredData = this.data.filter((row) => {
+      const indexes = Object.keys(this.filter)
+        .map((filterColumn) =>
+          this.visibleColumns.findIndex(
+            (columnKey) => columnKey === filterColumn
+          )
+        )
+        .filter((index) => index !== -1);
+
+      if (indexes?.length) {
+        return indexes.every((columnIndex) => {
+          const columnKey = this.visibleColumns[columnIndex];
+
+          const columnFilters = this.filter[columnKey];
+
+          return columnFilters.every((condition) => {
+            return filters[condition.filterMethod][condition.filterType](
+              row[columnIndex],
+              condition.filterValue,
+              condition.specialProperty
+            );
+          });
+        });
+      } else return true;
+    });
 
     if (this.sortColumn) {
       const columnIndex = this.header.indexOf(this.sortColumn);
