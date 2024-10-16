@@ -86,6 +86,22 @@ class FilterModal extends LitElement {
     this.filter = this.filter.reduce((acc, curr) => {
       if (curr.id === id) {
         curr.filterType = event.target.value;
+        if (
+          this?.filterMap[curr?.filterType]?.findIndex(
+            (method) => method.value === curr.filterMethod
+          ) === -1
+        )
+          curr.filterMethod = "";
+      }
+      acc.push(curr);
+      return acc;
+    }, []);
+  }
+
+  handleFilterMethodChanged(event, id) {
+    this.filter = this.filter.reduce((acc, curr) => {
+      if (curr.id === id) {
+        curr.filterMethod = event.target.value;
       }
       acc.push(curr);
       return acc;
