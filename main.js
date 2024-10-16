@@ -32,17 +32,6 @@ const lastNames = [
   "phillips", "holt", "singleton", "rice", "horton", "bryant", "ellis", "pearson", "keller"
 ];
 
-// function parseHeader(rawHeader) {
-//   return rawHeader.split("|").slice(2, -3);
-// }
-
-// function parseData(rawData) {
-//   return rawData.split("|$|\n").map((row) => row.split("|").slice(2, -3));
-// }
-
-// const header = parseHeader(rawHeader);
-// const data = parseData(rawData);
-
 // Function to generate random people and add them to the data array
 function addRandomPeople(count) {
   const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -59,6 +48,17 @@ function addRandomPeople(count) {
 }
 
 addRandomPeople(81053);
+
+// function parseHeader(rawHeader) {
+//   return rawHeader.split("|").slice(2, -3);
+// }
+
+// function parseData(rawData) {
+//   return rawData.split("|$|\n").map((row) => row.split("|").slice(2, -3));
+// }
+
+// const header = parseHeader(rawHeader);
+// const data = parseData(rawData);
 
 const tableElement = document.querySelector("data-table");
 
