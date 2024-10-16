@@ -66,7 +66,6 @@ class DataTable extends LitElement {
 
   handleColumnFilter(column) {
     const filter = this.filter[column] ?? [];
-    console.log(filter);
     this.filterColumn(filter, (columnFilter) =>
       this.setColumnFilter(columnFilter)
     );
