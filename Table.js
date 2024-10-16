@@ -130,19 +130,17 @@ class DataTable extends LitElement {
       <table style="margin-top: 7em;">
         <thead>
           <tr>
-            ${this.header.map((column) =>
-              this.visibleColumns.includes(column)
-                ? html`
-                    <th
-                      class="${this.sortColumn === column
-                        ? `sort-${this.sortDirection}`
-                        : ""}"
-                      @click="${() => this.handleColumnFilter(column)}"
-                    >
-                      ${column}
-                    </th>
-                  `
-                : null
+            ${this.visibleColumns.map(
+              (column) => html`
+                <th
+                  class="${this.sortColumn === column
+                    ? `sort-${this.sortDirection}`
+                    : ""}"
+                  @click="${() => this.handleColumnFilter(column)}"
+                >
+                  ${column}
+                </th>
+              `
             )}
           </tr>
         </thead>
