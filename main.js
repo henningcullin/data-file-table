@@ -63,4 +63,4 @@ addRandomPeople(81053);
 const tableElement = document.querySelector("data-table");
 
 tableElement.header = header;
-tableElement.data = data;
+tableElement.setData(data);

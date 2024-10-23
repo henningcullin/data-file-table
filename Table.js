@@ -11,7 +11,7 @@ import { filters } from "./filter.js";
 class DataTable extends LitElement {
   static properties = {
     header: { type: Array },
-    data: { type: Array },
+    data: { type: Array }, // Assuming this will be initialized with transformed data
     filter: { type: Object },
     sortColumn: { type: String },
     sortDirection: { type: String },
@@ -27,6 +27,16 @@ class DataTable extends LitElement {
     this.sortDirection = "asc";
     this.visibleColumns = [...this.header]; // Initially show all columns
     this.filterColumn = useFilterModal();
+  }
+
+  // Transform raw data rows into objects with keys from header
+  setData(rawData) {
+    this.data = rawData.map((row) => {
+      return this.header.reduce((obj, key, index) => {
+        obj[key] = row[index];
+        return obj;
+      }, {});
+    });
   }
 
   // Styles for the table
@@ -78,23 +88,15 @@ class DataTable extends LitElement {
   // Apply sorting and filtering to the data
   get processedData() {
     let filteredData = this.data.filter((row) => {
-      const indexes = Object.keys(this.filter)
-        .map((filterColumn) =>
-          this.visibleColumns.findIndex(
-            (columnKey) => columnKey === filterColumn
-          )
-        )
-        .filter((index) => index !== -1);
+      const filterKeys = Object.keys(this.filter);
 
-      if (indexes?.length) {
-        return indexes.every((columnIndex) => {
-          const columnKey = this.visibleColumns[columnIndex];
-
+      if (filterKeys.length) {
+        return filterKeys.every((columnKey) => {
           const columnFilters = this.filter[columnKey];
 
           return columnFilters.every((condition) => {
             return filters[condition.filterMethod][condition.filterType](
-              row[columnIndex],
+              row[columnKey],
               condition.filterValue,
               condition.specialProperty
             );
@@ -104,10 +106,9 @@ class DataTable extends LitElement {
     });
 
     if (this.sortColumn) {
-      const columnIndex = this.header.indexOf(this.sortColumn);
       filteredData.sort((a, b) => {
-        const valueA = a[columnIndex];
-        const valueB = b[columnIndex];
+        const valueA = a[this.sortColumn];
+        const valueB = b[this.sortColumn];
         if (valueA < valueB) return this.sortDirection === "asc" ? -1 : 1;
         if (valueA > valueB) return this.sortDirection === "asc" ? 1 : -1;
         return 0;
@@ -148,10 +149,8 @@ class DataTable extends LitElement {
           ${this.processedData.slice(0, 50).map(
             (row) => html`
               <tr>
-                ${row.map((cell, index) =>
-                  this.visibleColumns.includes(this.header[index])
-                    ? html`<td>${cell}</td>`
-                    : null
+                ${this.visibleColumns.map(
+                  (column) => html`<td>${row[column]}</td>`
                 )}
               </tr>
             `
