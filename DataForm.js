@@ -3,10 +3,12 @@ import {
   html,
   css,
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
+import { headers } from "./header.js";
 
 class DataForm extends LitElement {
   static properties = {
-    filter: { type: Array },
+    setData: { type: Function },
+    setHeader: { type: Function },
   };
 
   static styles = css`
@@ -28,7 +30,14 @@ class DataForm extends LitElement {
 
     const formValues = Object.fromEntries(new FormData(event.target));
 
-    console.table([formValues]);
+    const header = headers[formValues.header].header.split("|").slice(2, -3);
+
+    const data = formValues.data
+      .split("|$|\n")
+      .map((row) => row.split("|").slice(2, -3));
+
+    this.setHeader(header);
+    this.setData(data);
   }
 
   render() {
@@ -38,8 +47,15 @@ class DataForm extends LitElement {
           <div>
             <label>Header</label>
             <select name="header">
-              <option value="journal">Journal</option>
+              ${Object.keys(headers).map(
+                (header) => html`<option value="${header}">${header}</option>`
+              )}
             </select>
+          </div>
+
+          <div>
+            <label>Data</label>
+            <textarea name="data"></textarea>
           </div>
 
           <button type="submit">Set new data</button>
