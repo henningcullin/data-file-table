@@ -5,6 +5,7 @@ import {
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js";
 
 import MultiSelect from "./MultiSelect.js";
+import DataForm from "./DataForm.js";
 import { useFilterModal } from "./FilterModal.js";
 import { filters } from "./filter.js";
 
@@ -74,8 +75,6 @@ class DataTable extends LitElement {
   setColumnFilter(column, columnFilter) {
     this.filter[column] = columnFilter;
     this.filter = structuredClone(this.filter);
-
-    console.log(this.filter);
   }
 
   handleColumnFilter(column) {
@@ -126,6 +125,12 @@ class DataTable extends LitElement {
         .selectedItems="${this.visibleColumns}"
         .onChange="${(items) => this.updateVisibleColumns(items)}"
       ></multi-select>
+
+      <data-form
+        .setData="${(newData) => this.setData(newData)}"
+        .setHeader="${(newHeader) => (this.header = newHeader)}"
+      >
+      </data-form>
 
       <!-- Table -->
       <table style="margin-top: 7em;">
