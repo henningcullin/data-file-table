@@ -35,7 +35,8 @@ class DataForm extends LitElement {
     const data = formValues.data
       .split("|$|\n") // split into rows
       .filter((row) => !row.includes("|$$|")) // filter out header
-      .map((row) => row.split("|").slice(2, -3)); // split row strings to row array
+      .map((row) => row.split("|").slice(2, -1)) // split row strings to row array
+      .slice(0, -1); // remove last undefined item
 
     this.setHeader(header);
     this.setData(data);
