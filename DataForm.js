@@ -33,8 +33,9 @@ class DataForm extends LitElement {
     const header = headers[formValues.header].header.split("|").slice(2, -3);
 
     const data = formValues.data
-      .split("|$|\n")
-      .map((row) => row.split("|").slice(2, -3));
+      .split("|$|\n") // split into rows
+      .filter((row) => !row.includes("|$$|")) // filter out header
+      .map((row) => row.split("|").slice(2, -3)); // split row strings to row array
 
     this.setHeader(header);
     this.setData(data);
