@@ -33,7 +33,7 @@ export const headers = {
   },
   felanmalan: {
     file: "felanmalan",
-    header: `|;;|FelaId|MaskinID|AnmaelningsTidPunkt|Anmaelare|Anmaelan|Kvittens|KvitteradTidPunkt|KvitteradUser|orsak|projekt|aoId|Status|user|Personal|Text1|Text2|Text3|Text4|Text5|Text6|Text7|Text8|Text9|FirmaID|Maskinbeskrivning|AntalUtskrifter|FDatum|fuser|wo|onskatFdatum|FNLong01|FNLong02|FNLong03|FNStr01|FNStr02|FNStr03|FNDate01|FNDate02|FNDate03|FNTF01|FNTF02|FNTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Print|Mejl|SMS|Last|NotifieraMejl|MaskinBen|Avdelning|Avdgrp1|Avdgrp2|MaskinBild||$$|`,
+    header: `|;;|FelaId|MaskinID|AnmaelningsTidPunkt|Anmaelare|Anmaelan|Kvittens|KvitteradTidPunkt|KvitteradUser|orsak|projekt|aoId|Status|user|Personal|Text1|Text2|Text3|Text4|Text5|Text6|Text7|Text8|Text9|FirmaID|Maskinbeskrivning|AntalUtskrifter|FDatum|fuser|wo|onskatFdatum|FNLong01|FNLong02|FNLong03|FNStr01|FNStr02|FNStr03|FNDate01|FNDate02|FNDate03|FNTF01|FNTF02|FNTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Print|Mejl|SMS|Last|NotifieraMejl|Antdok|MaskinBen|Avdelning|Avdgrp1|Avdgrp2|MaskinBild||$$|`,
   },
   felanmalan_dok: {
     file: "felanmalan_dok",
@@ -41,7 +41,7 @@ export const headers = {
   },
   firmastrukt: {
     file: "firmastrukt",
-    header: `|;;|ID|FirmaID|ReservdelsID|Benaemning|LevResID|Pris|InPris|Kommentar|StdLev|FRLong01|FRLong02|FRLong03|FRStr01|FRStr02|FRStr03|FRTF01|FRTF02|FRTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Fabrikat|LName|LBild|Valuta||$$|`,
+    header: `|;;|ID|FirmaID|ReservdelsID|Benaemning|LevResID|Pris|InPris|Kommentar|StdLev|FRLong01|FRLong02|FRLong03|FRStr01|FRStr02|FRStr03|FRTF01|FRTF02|FRTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Fabrikat|LName|LBild|Valuta|RBild||$$|`,
   },
   glbfilter: {
     file: "glbfilter",
@@ -73,15 +73,23 @@ export const headers = {
   },
   journalposter: {
     file: "journalposter",
-    header: `|;;|JournalPostId|JournalID|Benaemning|Antal|Pantal|Apris|Kostnader|Reservdelar|Kommentar|PApris|Pkostnader|Datum|utfoeresav|InloggadTid|UtloggadTid|JRLong01|JRLong02|JRLong03|JRStr01|JRStr02|JRStr03|JRDate01|JRDate02|JRDate03|JRTF01|JRTF02|JRTF03|ReservdelarExt|AntalExt|AprisExt|KostnaderExt|Rabatt|Paalaegg|Visa|SenAnd|AndAv|SkapadAv|SkapadTpk|Lagerplats|Lagerplats2|TypAvTransaktion|Bild1|Enhet|isReservdel|UName||$$|`,
+    header: `|;;|JournalPostId|JournalID|Reservdelar|Benaemning|PAntal|PApris|PKostnader|Antal|Apris|Kostnader|Kommentar|Datum|utfoeresav|InloggadTid|UtloggadTid|ReservdelarExt|AntalExt|AprisExt|KostnaderExt|Rabatt|Paalaegg|Visa|Lagerplats|Lagerplats2|TypAvTransaktion|TAntal|JRLong01|JRLong02|JRLong03|JRStr01|JRStr02|JRStr03|JRDate01|JRDate02|JRDate03|JRTF01|JRTF02|JRTF03|SenAnd|AndAv|SkapadAv|SkapadTpk|Bild1|Enhet|isReservdel|UName||$$|`,
   },
   journalposterarkiv: {
     file: "journalposterarkiv",
-    header: `|;;|JournalPostId|JournalID|Benaemning|Antal|Pantal|Apris|Kostnader|Reservdelar|Kommentar|PApris|Pkostnader|Datum|utfoeresav|InloggadTid|UtloggadTid|JRLong01|JRLong02|JRLong03|JRStr01|JRStr02|JRStr03|JRDate01|JRDate02|JRDate03|JRTF01|JRTF02|JRTF03|ReservdelarExt|AntalExt|AprisExt|KostnaderExt|Rabatt|Paalaegg|Visa|SenAnd|AndAv|SkapadAv|SkapadTpk|Lagerplats|Lagerplats2|TypAvTransaktion|Bild1|Enhet|isReservdel|UName||$$|`,
+    header: `|;;|JournalPostId|JournalID|Reservdelar|Benaemning|PAntal|PApris|PKostnader|Antal|Apris|Kostnader|Kommentar|Datum|utfoeresav|InloggadTid|UtloggadTid|ReservdelarExt|AntalExt|AprisExt|KostnaderExt|Rabatt|Paalaegg|Visa|Lagerplats|Lagerplats2|TypAvTransaktion|TAntal|JRLong01|JRLong02|JRLong03|JRStr01|JRStr02|JRStr03|JRDate01|JRDate02|JRDate03|JRTF01|JRTF02|JRTF03|SenAnd|AndAv|SkapadAv|SkapadTpk|Bild1|Enhet|isReservdel|UName||$$|`,
   },
   journal_dok: {
     file: "journal_dok",
     header: `|;;|tabid|JournalID|Beskrivning|Dokument|Utskrift|Dokpath|Kopiera||$$|`,
+  },
+  lagerregister: {
+    file: "lagerregister",
+    header: `|;;|LagerplatsID|Lagerplats|Benaemning|Avdelning|Fack|Hylla|Kategori|Kommentar|IngaarI|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|LGLong01|LGLong02|LGLong03|LGStr01|LGStr02|LGStr03|LGDate01|LGDate02|LGDate03|LGTF01|LGTF02|LGTF03||$$|`,
+  },
+  lagerreservdelar: {
+    file: "lagerreservdelar",
+    header: `|;;|ID|Lagerplats|Lagerplats2|ReservdelsID|Standard|Lagersaldo|Kommentar|Inventeringav|Inventeringantal|Inventeringtid|NastaInventering|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid||$$|`,
   },
   losenord: {
     file: "losenord",
@@ -137,7 +145,7 @@ export const headers = {
   },
   planeratunderhaallposter: {
     file: "planeratunderhaallposter",
-    header: `|;;|PlanuhpostId|UnderhaallsID|Benaemning|Antal|Pantal|Apris|Kostnader|Reservdelar|Kommentar|PRLong01|PRLong02|PRLong03|PRStr01|PRStr02|PRStr03|PRDate01|PRDate02|PRDate03|PRTF01|PRTF02|PRTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Bild1|Enhet|isReservdel||$$|`,
+    header: `|;;|PlanuhpostId|UnderhaallsID|Reservdelar|Benaemning|PAntal|PApris|PKostnader|Antal|Apris|Kostnader|Kommentar|Datum|utfoeresav|InloggadTid|UtloggadTid|ReservdelarExt|AntalExt|AprisExt|KostnaderExt|Rabatt|Paalaegg|Visa|Lagerplats|Lagerplats2|TypAvTransaktion|PRLong01|PRLong02|PRLong03|PRStr01|PRStr02|PRStr03|PRDate01|PRDate02|PRDate03|PRTF01|PRTF02|PRTF03|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|Bild1|Enhet|isReservdel||$$|`,
   },
   planuh_dok: {
     file: "planuh_dok",
@@ -162,6 +170,10 @@ export const headers = {
   reservdelsstruktur: {
     file: "reservdelsstruktur",
     header: `|;;|PostID|ReservdelsID|MaskinID|Inkoepsdatum|Inkoepspris|Antal|Kommentar|Skapadav|Skapadavtid|Redigeradav|Redigeradavtid|ResBenaemning|ResBild|MaskinBenaemning|MaskinBild|PrisPerEnhet|Lagersaldo||$$|`,
+  },
+  resetcodes: {
+    file: "resetcodes",
+    header: `|;;|FirmaID|Firmanamn|Kod|GiltigTill|Anvand||$$|`,
   },
   restransaktioner: {
     file: "restransaktioner",
@@ -205,7 +217,7 @@ export const headers = {
   },
   uhrond: {
     file: "uhrond",
-    header: `|;;|RondId|Radnr|Maskin|Beskrivning|Anm|SkapaAO|JournalID|UJournalID|Utfoeres_av|Tidpunkt|Klar|Namn|Expr1012|UDLong01|UDStr01|UDStr02|UDStr03|ID|UDTF01|Radtyp|Bild|Verifierad|MaskinID|SenAnd|Arkiv|ordertyp|MaskinBen|SkapadTpk|Bild1|MRTF01|Avdelning|RadMaskinBen|Huvudonr|UnderhaallsID||$$|`,
+    header: `|;;|RondId|Radnr|Maskin|Beskrivning|Anm|SkapaAO|JournalID|UJournalID|Utfoeres_av|Tidpunkt|Klar|Namn|Expr1012|UDLong01|UDStr01|UDStr02|UDStr03|ID|UDTF01|Radtyp|Bild|Verifierad|MaskinID|SenAnd|Arkiv|ordertyp|MaskinBen|SkapadTpk|Bild1|MRTF01|Avdelning|RadMaskinBen|Huvudonr|UnderhaallsID|Tpk||$$|`,
   },
   userarkivkod: {
     file: "userarkivkod",
