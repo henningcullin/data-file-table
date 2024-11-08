@@ -1,8 +1,11 @@
 const fs = require("fs");
 const path = require("path");
+const { exec } = require("child_process");
 
 // Directory containing text files
-const dirPath = path.join(__dirname, "datafiles");
+const dirPath = path.join(
+  `C:\\Users\\Henning\\Programmering\\PHP\\avrap\\data\\table`
+);
 
 // Object to store headers from each file
 const headers = {};
@@ -47,6 +50,19 @@ fs.readdir(dirPath, (err, files) => {
   }
   output += "};";
 
-  // Output the final constructed string
-  console.log(output);
+  // Path for the temporary text file
+  const tempFilePath = path.join(__dirname, "output.txt");
+
+  // Write output to a temporary text file
+  fs.writeFileSync(tempFilePath, output, "utf8");
+
+  // Open the temporary file in Notepad
+  exec(`notepad.exe ${tempFilePath}`, (err) => {
+    if (err) {
+      console.error("Failed to open Notepad:", err);
+    } else {
+      console.log("File opened in Notepad.");
+      fs.unlinkSync(tempFilePath);
+    }
+  });
 });
